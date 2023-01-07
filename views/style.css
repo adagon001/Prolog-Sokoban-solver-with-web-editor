@@ -1,0 +1,100 @@
+#left,
+
+      pre {
+        border: 1px solid #ccc;
+        padding: 5px;
+      }
+
+      label {
+        height: 64px;
+        width: 64px;
+      }
+
+      label.focus {
+        outline: 3.5px solid #000;
+      }
+
+      label input,
+      label span {
+        display: none;
+      }
+
+      table {
+        border: 5px solid #000;
+        border-collapse: collapse;
+      }
+
+      td {
+        cursor: pointer;
+        height: 64px;
+        padding: 0;
+        width: 64px;
+      }
+
+body {
+    margin: 0;
+    width: 100%;
+  }
+body div{
+  width:100%;
+  display: flex;
+  justify-content: center;
+}
+  
+  .wall,
+  .player_floor,
+  .player_goal,
+  .box_floor,
+  .box_goal,
+  .goal,
+  .floor {
+    display: inline-block;
+    height: 64px;
+    overflow: hidden;
+    width: 64px;
+  }
+  
+  .preview {
+    margin: 0 auto;
+    width: 480px;
+  }
+  
+  #set-2 .wall {
+    background: url(sprite.png) no-repeat 0 0;
+  }
+  #set-2 .player_floor {
+    background: url(sprite.png) no-repeat -64px 0;
+  }
+  #set-2 .player_goal {
+    background: url(sprite.png) no-repeat -128px 0;
+  }
+  #set-2 .box_floor {
+    background: url(sprite.png) no-repeat -192px 0;
+  }
+  #set-2 .box_goal {
+    background: url(sprite.png) no-repeat -256px 0;
+  }
+  #set-2 .goal {
+    background: url(sprite.png) no-repeat -320px 0;
+  }
+  #set-2 .floor {
+    background: url(sprite.png) no-repeat -384px 0;
+  }
+  code {
+    display: block;
+    white-space: pre-wrap;
+    width: 100%;
+    margin: 0;
+  }
+  pre{
+    width: 45%;
+  }
+  form {
+    display: inline;
+  }
+  button, select{
+    margin: 10px!important;
+  }
+
+  
+  

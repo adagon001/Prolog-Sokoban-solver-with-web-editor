@@ -1,0 +1,20 @@
+{
+  "name": "zadanie",
+  "version": "1.0.0",
+  "description": "",
+  "main": "client.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "node-gyp": "^9.3.1",
+    "swipl": "^1.0.6",
+    "swipl-stdio": "^1.0.4"
+  }
+}
