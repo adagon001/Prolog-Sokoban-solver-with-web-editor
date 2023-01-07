@@ -10,13 +10,12 @@ SWI-Prolog command `swipl` must be available in `PATH`.
 
 tested with this solution:
 https://www.youtube.com/watch?v=oJVXMv2TIoU&ab_channel=AkashDevdhar
-SWI-Prolog command `swipl` must be available in `PATH`.
 
 ### MacOS
 
 SWI-Prolog command `swipl` must be available in `PATH`.
 
-### cmd skould recognize command `swipl`
+### cmd should recognize command `swipl`
 
 ```
 C:\Users\adago>swipl
@@ -29,3 +28,29 @@ For built-in help, use ?- help(Topic). or ?- apropos(Word).
 
 1 ?-
 ```
+
+## Installation and run
+
+To install node_modules run:
+
+```sh
+$ npm install
+```
+
+To start project run:
+
+```sh
+$ npm start
+```
+
+UI with editor should be avalible on url :
+http://localhost:9000/
+
+## Theory location
+
+generated prolog theory should be in `temp-theory.pl`
+
+## Alternative theories
+
+I also tried DFS search located in `dfs.pl` but it proved to be less efective, due to high number of array operations and higher memory usage.
+Also in `theory.pl` you can uncooment line 6 %:- table subset/2. which enables tabling of subset predicate. It can speed up theory but can run out of memory.
