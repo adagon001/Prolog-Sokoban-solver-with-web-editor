@@ -1,4 +1,4 @@
-# Prolog-Sokobonan-solver-with-web-editor
+# Prolog-Sokoban-solver-with-web-editor
 
 FMFI Logic Programing project
 avalible in git repo
