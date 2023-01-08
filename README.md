@@ -53,4 +53,4 @@ generated prolog theory should be in `temp-theory.pl`
 ## Alternative theories
 
 I also tried DFS search located in `dfs.pl` but it proved to be less efective, due to high number of array operations and higher memory usage.
-Also in `theory.pl` you can uncooment line 6 `%:- table subset/2.` which enables tabling of subset predicate. It can speed up theory but can run out of memory.
+Final theory is in `theory-improved.pl` you can uncooment line 6 `%:- table subset/2.`.
