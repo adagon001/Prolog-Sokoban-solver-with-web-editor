@@ -1,6 +1,8 @@
 # Prolog-Sokobonan-solver-with-web-editor
 
 FMFI Logic Programing project
+avalible in git repo
+https://github.com/adagon001/Prolog-Sokobonan-solver-with-web-editor
 
 ## Platform support
 
