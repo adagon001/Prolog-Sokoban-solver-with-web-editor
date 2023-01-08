@@ -1,10 +1,10 @@
 var tiles = Array(
   '#', // Wall
-  '@', // Player
-  '+', // Player on goal
-  '$', // Box
-  '*', // Box on goal
-  '.', // Goal
+  'S', // Player
+  's', // Player on goal
+  'C', // Box
+  'c', // Box on goal
+  'X', // Goal
   ' ' // Floor
 );
 
@@ -16,52 +16,45 @@ var minHeight = 2;
 var levels = [
   [
     [' ', ' ', ' ', ' '],
-    [' ', '#', '$', '$'],
-    ['@', '#', '.', '.'],
+    [' ', '#', 'C', 'C'],
+    ['S', '#', 'X', 'X'],
   ],
   [
     ['#', '#', '#', ' ', '#', '#', '#'],
     ['#', '#', ' ', ' ', ' ', '#', '#'],
     ['#', ' ', ' ', ' ', ' ', ' ', '#'],
-    [' ', ' ', '.', ' ', ' ', ' ', ' '],
-    [' ', '@', '#', '$', ' ', ' ', ' '],
+    [' ', ' ', 'X', ' ', ' ', ' ', ' '],
+    [' ', 'S', '#', 'C', ' ', ' ', ' '],
     [' ', ' ', ' ', ' ', ' ', ' ', ' '],
   ],
   [
-    ['.', '@', ' ', ' '],
-    ['$', '$', '$', '.'],
-    ['.', ' ', ' ', ' '],
+    ['s', ' ', ' ', ' '],
+    ['C', 'C', 'C', 'X'],
+    ['X', ' ', ' ', ' '],
   ],
   [
-    ['@', ' ', ' ', ' ', ' '],
-    [' ', '#', ' ', '#', '$'],
-    [' ', '#', '$', '#', '.'],
-    [' ', ' ', ' ', ' ', '.'],
+    ['S', ' ', ' ', ' ', ' '],
+    [' ', '#', ' ', '#', 'C'],
+    [' ', '#', 'C', '#', 'X'],
+    [' ', ' ', ' ', ' ', 'X'],
   ],
   [
     ['#', '#', '#', '#', '#'],
-    ['@', '.', '$', ' ', ' '],
+    ['S', 'X', 'C', ' ', ' '],
     ['#', '#', ' ', ' ', ' '],
   ],
   [
-    [' ', ' ', ' ', ' ', ' ', ' ', ' '],
-    [' ', '$', '$', '@', '$', '$', ' '],
-    [' ', ' ', ' ', '.', ' ', ' ', ' '],
-    [' ', ' ', '.', ' ', '.', ' ', ' '],
-    [' ', ' ', ' ', '.', ' ', ' ', ' '],
+    ['X', 'S', 'C', 'X'],
+    ['C', ' ', 'C', ' '],
+    [' ', ' ', 'X', ' '],
   ],
   [
-    ['.', '@', '$', '.'],
-    ['$', ' ', '$', ' '],
-    [' ', ' ', '.', ' '],
-  ],
-  [
-    ['.', '$', ' ', '#', '#'],
+    ['X', 'C', ' ', '#', '#'],
     ['#', '#', ' ', '#', '#'],
     ['#', '#', ' ', '#', '#'],
-    ['#', ' ', ' ', '$', '.'],
-    ['#', '@', '#', ' ', '#'],
-    ['.', '$', ' ', ' ', '#'],
+    ['#', ' ', ' ', 'C', 'X'],
+    ['#', 'S', '#', ' ', '#'],
+    ['X', 'C', ' ', ' ', '#'],
   ],
 ];
 
@@ -83,19 +76,19 @@ function charToTile(arg) {
     case '#':
       return 'wall';
       break;
-    case '@':
+    case 'S':
       return 'player_floor';
       break;
-    case '+':
+    case 's':
       return 'player_goal';
       break;
-    case '$':
+    case 'C':
       return 'box_floor';
       break;
-    case '*':
+    case 'c':
       return 'box_goal';
       break;
-    case '.':
+    case 'X':
       return 'goal';
       break;
     case ' ':
@@ -143,7 +136,7 @@ function makeLevelChooser() {
 function isSokPlaced() {
   for (i = 0; i < Level.length; i++) {
     for (n = 0; n < Level[i].length; n++) {
-      if (Level[i][n] === '@') return true;
+      if (Level[i][n] === 'S') return true;
     }
   }
   return false;
@@ -161,23 +154,23 @@ async function showSolution() {
   await solution.forEach(({ args }, index) => {
     setTimeout(() => {
       let cords = getNumbersAfterXAndY(args[0]);
-      if (Level[cords.y][cords.x] == '+') {
-        Level[cords.y][cords.x] = '.';
+      if (Level[cords.y][cords.x] == 's') {
+        Level[cords.y][cords.x] = 'X';
       } else {
         Level[cords.y][cords.x] = ' ';
       }
       cords = getNumbersAfterXAndY(args[1]);
-      if (Level[cords.y][cords.x] == '.') {
-        Level[cords.y][cords.x] = '+';
+      if (Level[cords.y][cords.x] == 'X') {
+        Level[cords.y][cords.x] = 's';
       } else {
-        Level[cords.y][cords.x] = '@';
+        Level[cords.y][cords.x] = 'S';
       }
       if (args.length === 3) {
         let cords = getNumbersAfterXAndY(args[2]);
-        if (Level[cords.y][cords.x] == '.') {
-          Level[cords.y][cords.x] = '*';
+        if (Level[cords.y][cords.x] == 'X') {
+          Level[cords.y][cords.x] = 'c';
         } else {
-          Level[cords.y][cords.x] = '$';
+          Level[cords.y][cords.x] = 'C';
         }
       }
       paintLevel();
@@ -216,34 +209,40 @@ function rtrim(s) {
 }
 
 function outputCode() {
-  stateStr = '[';
+  stateStr = '';
   goalStr = '[';
   var lvlRaw = '';
+  mapStr = '';
+  sokStr = '';
+  emptyStr = '';
+  boxstr = '';
 
   for (i = 0; i < Level.length; i++) {
     for (n = 0; n < Level[i].length; n++) {
       if (i + 1 < Level.length)
-        stateStr += ` top(x${n}y${i},x${n}y${i + 1}),`;
+        mapStr += ` top(x${n}y${i},x${n}y${i + 1}),`;
       if (n + 1 < Level[i].length)
-        stateStr += ` right(x${n + 1}y${i},x${n}y${i}),`;
+        mapStr += ` right(x${n + 1}y${i},x${n}y${i}),`;
       switch (Level[i][n]) {
-        case '@':
-          stateStr += ` sokoban(x${n}y${i}),`;
+        case 'S':
+          sokStr += ` sokoban(x${n}y${i}),`;
           break;
-        case ' ':
-          stateStr += ` empty(x${n}y${i}),`;
-          break;
-        case '$':
-          stateStr += ` box(x${n}y${i}),`;
-          break;
-        case '*':
-          stateStr += ` storage(x${n}y${i}),`;
-          stateStr += ` box(x${n}y${i}),`;
+        case 's':
+          sokStr += ` sokoban(x${n}y${i}),`;
           goalStr += ` box(x${n}y${i}),`;
           break;
-        case '.':
-          stateStr += ` storage(x${n}y${i}),`;
-          stateStr += ` empty(x${n}y${i}),`;
+        case ' ':
+          emptyStr += ` empty(x${n}y${i}),`;
+          break;
+        case 'C':
+          boxstr += ` box(x${n}y${i}),`;
+          break;
+        case 'c':
+          boxstr += ` box(x${n}y${i}),`;
+          goalStr += ` box(x${n}y${i}),`;
+          break;
+        case 'X':
+          emptyStr += ` empty(x${n}y${i}),`;
           goalStr += ` box(x${n}y${i}),`;
           break;
       }
@@ -252,8 +251,12 @@ function outputCode() {
   }
   stateStr = stateStr.substring(0, stateStr.length - 1);
   goalStr = goalStr.substring(0, goalStr.length - 1);
-  stateStr += ']';
   goalStr += ']';
+  mapStr = mapStr.substring(0, mapStr.length - 1);
+  sokStr = sokStr.substring(0, sokStr.length - 1);
+  emptyStr = emptyStr.substring(0, emptyStr.length - 1);
+  boxstr = boxstr.substring(0, boxstr.length - 1);
+  stateStr = `[[${mapStr}], ${sokStr}, [${boxstr}],[${emptyStr}]]`;
 
   $('#levelcode_scl').text(stateStr);
 }
@@ -261,14 +264,6 @@ function outputCode() {
 $(document).ready(function () {
   buildLevel();
   makeLevelChooser();
-
-  // $(document).live('mousedown', function() {
-  // 	Downz = true;
-  // });
-
-  // $(document).live('mouseup', function() {
-  // 	Downz = false;
-  // });
 
   $('td').live('mouseover', function () {
     if (Downz) {
@@ -282,7 +277,7 @@ $(document).ready(function () {
   $('td').live('mousedown', function () {
     x = $(this).data('row');
     y = $(this).data('column');
-    if (tile === '@' && isSokPlaced()) {
+    if (tile === 'S' && isSokPlaced()) {
       alert('Player already placed!');
       return;
     }
@@ -324,6 +319,23 @@ $(document).ready(function () {
     tile = $(this).attr('value');
     $('label').removeAttr('class');
     $(this).parent().addClass('focus');
+  });
+  $('#myInput').change(function () {
+    $.get(
+      document.getElementById('myInput').files[0].name,
+      function (data) {
+        let lines = data.split(/\r?\n/);
+        lines.forEach((line, i) => {
+          lines[i] = lines[i].split('');
+        });
+        console.log(lines);
+        Level = lines;
+        Width = Level[0].length;
+        Height = Level.length;
+        buildLevel();
+        paintLevel();
+      }
+    );
   });
 
   $('#solve').click(async function () {

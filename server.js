@@ -15,7 +15,7 @@ DB = [{ name: 'Adam', surname: 'Gonsenica' }];
 let engine = new swipl.Engine();
 
 postCreateUser = (req, res, next) => {
-  fs.readFile('theory.pl', 'utf8', function (err, data) {
+  fs.readFile('theory-improved.pl', 'utf8', function (err, data) {
     if (err) throw err;
     let newData = data.replace(/\[bg\]/g, req.body.bg);
     newData = newData.replace(/\[gs\]/g, req.body.gs);
